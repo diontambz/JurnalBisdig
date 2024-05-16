@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Search for an article:</h1>
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Enter keyword">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if recommended_articles %}
+    <h3 class="mb-3">Recommended articles:</h3>
+    <div class="row">
+        {% for article in recommended_articles %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ url_for('article_detail', article_id=article.id) }}">{{ article.title }}</a></h5>
+                    <p class="card-text">Published in {{ article.year }}</p>
+                    {% if current_user.is_authenticated %}
+                    <button class="btn btn-primary bookmark-btn" data-article-id="{{ article.id }}">Bookmark</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No recommendations available. Please search for a keyword.</p>
+    {% endif %}
+
+<script>
+    document.querySelectorAll('.bookmark-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const articleId = btn.dataset.articleId;
+            fetch(`/bookmark/${articleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ 'article_id': articleId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Tampilkan toast
+                var toastContainer = document.getElementById('toastContainer');
+                var toastHTML = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+                                    <div class="toast-header">
+                                        <strong class="mr-auto">Bookmark</strong>
+                                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="toast-body">${data.message}</div>
+                                </div>`;
+                toastContainer.innerHTML = toastHTML;
+                $('.toast').toast('show');
+            })
+            .catch(error => {
+                console.error('Error bookmarking article:', error);
+            });
+        });
+    });
+    </script>
+{% endblock %} 

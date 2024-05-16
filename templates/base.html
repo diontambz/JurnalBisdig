@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Sistem Rekomendasi Jurnal</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Sitem Rekomendasi Jurnal Bisnis Digital</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <b>User</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ url_for('view_bookmarks') }}">Bookmarks</a>
+                        <a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}"><b>Login</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('register') }}"><b>Register</b></a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('suggestions') }}"><b>Saran</b></b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about') }}"><b>Tentang Kami</b></b></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- JavaScript untuk menghilangkan pesan flash setelah 3 detik -->
+    <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Cari semua elemen dengan kelas 'alert' (pesan flash)
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach((alert) => {
+            // Set timeout untuk menghilangkan pesan flash setelah 3 detik (3000 ms)
+            setTimeout(() => {
+                alert.style.display = 'none'; // Menghilangkan elemen
+            }, 2000); // 2000 ms = 2 detik
+        });
+    });
+    </script>
+
+{% block content %}
+<!-- Konten spesifik halaman akan ditempatkan di sini -->
+{% endblock %}
+
+    <!-- Toast Container -->
+    <div aria-live="polite" aria-atomic="true" style="position: fixed; bottom: 0; right: 0; min-height: 200px; z-index: 1050;">
+        <div id="toastContainer" style="position: absolute; top: 0; right: 0;"></div>
+    </div>
+
+<!-- Footer -->
+<footer class="bg-primary text-white py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Sistem Rekomendasi Jurnal</h5>
+          <p>Temukan jurnal bisnis digital terbaik dengan rekomendasi kami.</p>
+        </div>
+        <div class="col-md-3">
+          <h5>Tautan</h5>
+          <ul class="list-unstyled">
+            <li><a href="{{ url_for('suggestions') }}" class="text-white">Saran</a></li>
+            <li><a href="{{ url_for('about') }}" class="text-white">Tentang Kami</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Ikuti Kami</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="bg-light">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>&copy; 2024 Sistem Rekomendasi Jurnal Bisnis Digital. All Rights Reserved.</p>
+          Made with ❤️ by Dion Sandy Ara Tambunan
+        </div>
+      </div>
+    </div>
+  </footer>
+    
+ <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // JavaScript untuk mengaktifkan validasi form Bootstrap
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Ambil semua form yang kita ingin terapkan gaya validasi Bootstrap kustom
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+</body>
+
+</html> 

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Pemusatan vertikal dan horizontal */
+    min-height: 50vh;
+    text-align: center; /* Memastikan teks dan elemen inline terpusat */
+}
+
+.search-left {
+    align-items: flex-start; /* Mengatur elemen-elemen untuk berorientasi ke kiri */
+    text-align: left; /* Memastikan teks berorientasi ke kiri */
+}
+
+.search-left .search-form {
+    margin: 0; /* Menghilangkan margin untuk memposisikan tepat di kiri */
+}
+
+@media (min-width: 992px) {
+    input.form-control-lg {
+        width: 700px; /* Lebar tetap untuk layar besar */
+    }
+}
+
+@media (max-width: 991px) {
+    input.form-control-lg {
+        width: 100%; /* Lebar penuh untuk layar kecil */
+    }
+}
+</style>
+<div class="container my-5 {{ 'search-left' if recommended_articles else 'search-container' }}">
+    <div>
+        <h1 class="mb-4" style="font-size: 48px;">Cari jurnal apa, nih?</h1>
+        <form method="post" class="mb-4 search-form">
+            <div class="form-group">
+                <input type="text" name="keyword" class="form-control form-control-lg" placeholder="Enter keyword" style="font-size: 20px; border-radius: 20px;">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-lg">Search</button>
+            </div>
+        </form>
+
+    {% if recommended_articles %}
+    <h3 class="mb-3">Recommended articles:</h3>
+    <div class="row">
+        {% for article in recommended_articles %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ url_for('article_detail', article_id=article.id) }}">{{ article.title }}</a></h5>
+                    <p class="card-text">Published in {{ article.year }}</p>
+                    {% if current_user.is_authenticated %}
+                    <button class="btn btn-primary bookmark-btn" data-article-id="{{ article.id }}">Bookmark</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% elif search_performed %}
+    <p>Mohon maaf. Tidak ada rekomendasi artikel mirip yang tersedia sesuai dengan keyword Anda.</p><p>Gunakan tombol saran untuk memberikan kami saran topik jurnal yang harus ditambahkan. </p>
+    {% endif %}
+    </div>
+</div>
+    
+
+<script>
+    document.querySelectorAll('.bookmark-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const articleId = btn.dataset.articleId;
+            fetch(`/bookmark/${articleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ 'article_id': articleId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Tampilkan toast
+                var toastContainer = document.getElementById('toastContainer');
+                var toastHTML = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+                                    <div class="toast-header">
+                                        <strong class="mr-auto">Bookmark</strong>
+                                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="toast-body">${data.message}</div>
+                                </div>`;
+                toastContainer.innerHTML = toastHTML;
+                $('.toast').toast('show');
+            })
+            .catch(error => {
+                console.error('Error bookmarking article:', error);
+            });
+        });
+    });
+    </script>
+{% endblock %} 

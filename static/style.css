@@ -1,0 +1,81 @@
+/* style.css */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 40px 0;
+}
+
+footer h5 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+footer ul li {
+    margin-bottom: 10px;
+}
+
+footer ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer ul li a:hover {
+    color: #ccc;
+}
+
+footer hr {
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+.page-content {
+    flex: 1 0 auto;
+}
+
+body {
+    font-size: 16px; /* Ukuran font dasar */
+}
+
+h1 {
+    font-size: 2.5rem; /* 40px jika ukuran font dasar adalah 16px */
+}
+
+p {
+    font-size: 1rem; /* 16px, sama dengan ukuran font dasar */
+}
+
+@media (max-width: 768px) {
+    body {
+      font-size: 14px; /* Mengurangi ukuran font dasar pada layar yang lebih kecil */
+    }
+}
+
+/* Aturan untuk layar yang lebih besar */
+body {
+    font-size: 16px;
+}
+
+/* Aturan untuk layar medium */
+@media (max-width: 992px) {
+    body {
+    font-size: 15px;
+    }
+}
+
+/* Aturan untuk layar kecil */
+@media (max-width: 768px) {
+    body {
+    font-size: 14px;
+    }
+}
+
+  /* Aturan untuk layar sangat kecil */
+@media (max-width: 576px) {
+    body {
+    font-size: 13px;
+    }
+}

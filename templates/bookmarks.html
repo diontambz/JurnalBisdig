@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>Bookmarked Articles</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% if bookmarks %}
+    <div class="row">
+        {% for article in bookmarks %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ url_for('article_detail', article_id=article['Title']) }}">{{ article['Title'] }}</a></h5>
+                    <p class="card-text">Published in {{ article['Year'] }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>You haven't bookmarked any articles yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
