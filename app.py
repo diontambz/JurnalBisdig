@@ -19,6 +19,7 @@ from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
 app = Flask(__name__)
+application = app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = b'\x81A\xc3]\xd0yV\r\x988\x1aS\x9a\x84\x8b\xb0\xc2\x9b\x0biAw\xf4>'
 db.init_app(app)
@@ -365,4 +366,4 @@ def get_article_by_id(article_id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True) 
+    #app.run(debug=True) 
