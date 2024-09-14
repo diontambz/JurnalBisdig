@@ -40,5 +40,5 @@ Sistem ini menggunakan pendekatan Content Based Filtering untuk memberikan rekom
 
 ## Screenshots:
 
-![Logo]([logo.png](Screenshot%202024-05-20%20192423.png)
+![Logo]([logo.png](Screenshot 2024-05-20 192423.png)
 
